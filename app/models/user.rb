@@ -3,7 +3,9 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :jwt_authenticatable, jwt_revocation_strategy: self
+  devise :database_authenticatable, :recoverable, :jwt_authenticatable, jwt_revocation_strategy: self
+
+  has_many :users_availabilities, class_name: 'Users::Availability', foreign_key: 'users_id'
 
   # def jwt_payload
   #   super.merge({ email: })
