@@ -1,61 +1,61 @@
 class Catalog::HoursController < ApplicationController
-  before_action :set_catalog_hour, only: %i[show update destroy]
+  before_action :set_hour, only: %i[show update destroy]
 
   def index
     render json: Catalog::Hour.all.map(&:show)
   end
 
   def show
-    render json: @catalog_hour.show
+    render json: @hour.show
   end
 
   def create
-    catalog_hour = Catalog::Hour.new(catalog_hour_params)
+    hour = Catalog::Hour.new(hour_params)
 
-    if catalog_hour.save
+    if hour.save
       render json: { message: 'hour created' }, status: :created
     else
       render json: {
         message: 'Something went wrong',
-        errors: catalog_hour.errors.full_messages
+        errors: hour.errors.full_messages
       }, status: :internal_server_error
     end
   end
 
   def update
-    if @catalog_hour.update(catalog_hour_params)
+    if @hour.update(hour_params)
       render json: { message: 'hour updated' }, status: :ok
     else
       render json: {
         message: 'Something went wrong',
-        errors: @catalog_hour.errors.full_messages
+        errors: @hour.errors.full_messages
       }, status: :internal_server_error
     end
   end
 
   def destroy
-    if @catalog_hour.destroy
+    if @hour.destroy
       render json: { message: 'hour removed' }, status: :ok
     else
       render json: {
         message: 'Something went wrong',
-        errors: @catalog_hour.errors.full_messages
+        errors: @hour.errors.full_messages
       }, status: :internal_server_error
     end
   end
 
   private
 
-  def catalog_hour_params
+  def hour_params
     params.require(:hour).permit(
       :start_at,
       :end_at
     )
   end
 
-  def set_catalog_hour
-    @catalog_hour = Catalog::Hour.find_by(id: params[:id])
-    return if @catalog_hour
+  def set_hour
+    @hour = Catalog::Hour.find_by(id: params[:id])
+    return if @hour
 
     render json: { message: 'hour not found' }, status: :not_found
   end
