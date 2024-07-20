@@ -5,11 +5,14 @@ class Service < ApplicationRecord
   def show
     self_attributes = attributes
 
-    self_attributes[:hours] = services_hours.order(:day).map do |services_hour|
-      {
-        range: [services_hour.catalog_hour.start_at_time, services_hour.catalog_hour.end_at_time],
-        day: services_hour.day
-      }
+    self_attributes[:hours] = services_hours.order(day: :desc).map do |services_hour|
+      hour_attributes = services_hour.catalog_hour.attributes
+
+      hour_attributes[:start_at] = services_hour.catalog_hour.start_at_time
+      hour_attributes[:end_at] = services_hour.catalog_hour.end_at_time
+      hour_attributes[:day] = services_hour.day
+
+      hour_attributes
     end
 
     self_attributes

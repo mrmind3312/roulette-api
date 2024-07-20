@@ -9,6 +9,7 @@ class Users::Availability < ApplicationRecord
     self_attributes[:start_at] = catalog_hour.start_at_time
     self_attributes[:end_at] = catalog_hour.end_at_time
     self_attributes[:service] = service&.name
+    self_attributes[:user] = user.name
 
     self_attributes
   end

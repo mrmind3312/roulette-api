@@ -6,6 +6,10 @@ class Users::AvailabilitiesController < ApplicationController
     render json: @user.availabilities.map(&:show)
   end
 
+  def all
+    render json: Users::Availability.all.map(&:show)
+  end
+
   def show
     render json: @availability.show
   end

@@ -24,7 +24,11 @@ Rails.application.routes.draw do
       end
 
       resources :users do
-        resources :availabilities, controller: 'users/availabilities'
+        resources :availabilities, controller: 'users/availabilities' do
+          collection do
+            get :all
+          end
+        end
       end
     end
   end
