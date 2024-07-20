@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_17_124908) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_20_015613) do
   create_table "catalog_hours", force: :cascade do |t|
     t.time "start_at"
     t.time "end_at"
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_17_124908) do
     t.datetime "updated_at", null: false
     t.integer "services_id"
     t.integer "catalog_hours_id"
+    t.integer "day", default: 1
     t.index ["catalog_hours_id"], name: "index_services_hours_on_catalog_hours_id"
     t.index ["services_id"], name: "index_services_hours_on_services_id"
   end

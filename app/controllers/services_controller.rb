@@ -2,11 +2,11 @@ class ServicesController < ApplicationController
   before_action :set_service, only: %i[show update destroy]
 
   def index
-    render json: Service.include(:catalog_hours).all
+    render json: Service.all.map(&:show)
   end
 
   def show
-    render json: @service
+    render json: @service.show
   end
 
   def create

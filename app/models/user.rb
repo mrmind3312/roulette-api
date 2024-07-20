@@ -5,7 +5,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :recoverable, :jwt_authenticatable, jwt_revocation_strategy: self
 
-  has_many :users_availabilities, class_name: 'Users::Availability', foreign_key: 'users_id'
+  has_many :availabilities, class_name: 'Users::Availability', foreign_key: 'users_id'
 
   # def jwt_payload
   #   super.merge({ email: })
@@ -17,7 +17,13 @@ class User < ApplicationRecord
   # end
 
   def show
-    self_attributes = attributes
+    self_attributes = attributes.except(
+      'encrypted_password',
+      'reset_password_token',
+      'reset_password_sent_at',
+      'remember_created_at',
+      'jti'
+    )
 
     self_attributes[:availabilities] = users_availabilities.map do |user_availability|
       {

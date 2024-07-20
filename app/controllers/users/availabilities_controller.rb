@@ -1,18 +1,19 @@
 class Users::AvailabilitiesController < ApplicationController
-  before_action :set_users_availability, only: %i[show update destroy]
+  before_action :set_user
+  before_action :set_availability, only: %i[show update destroy]
 
   def index
-    render json: Users::Availability.include(:user, :catalog_hour, :service).all
+    render json: @user.availabilities.map(&:show)
   end
 
   def show
-    render json: @users_availability
+    render json: @availability.show
   end
 
   def create
-    user_availability = Users::Availability.new(users_availability_params)
+    availability = @user.availabilities.build(availability_params)
 
-    if user_availability.save
+    if availability.save
       render json: { message: 'User availability created' }, status: :created
     else
       render json: {
@@ -23,7 +24,7 @@ class Users::AvailabilitiesController < ApplicationController
   end
 
   def update
-    if @users_availability.update(users_availability_params)
+    if @availability.update(availability_params)
       render json: { message: 'User availability updated' }, status: :ok
     else
       render json: {
@@ -34,20 +35,20 @@ class Users::AvailabilitiesController < ApplicationController
   end
 
   def destroy
-    if @users_availability.destroy
+    if @availability.destroy
       render json: { message: 'User availability removed' }, status: :ok
     else
       render json: {
         message: 'Something went wrong',
-        errors: @users_availability.errors.full_messages
+        errors: @availability.errors.full_messages
       }, status: :internal_server_error
     end
   end
 
   private
 
-  def users_availability_params
-    params.require(:users_availability).permit(
+  def availability_params
+    params.require(:availability).permit(
       :users_id,
       :day,
       :week,
@@ -59,10 +60,17 @@ class Users::AvailabilitiesController < ApplicationController
     )
   end
 
-  def set_users_availability
-    @user_availability = Users::Availability.find_by(id: params[:id])
-    return if @user_availability
+  def set_user
+    @user = User.find_by(id: params[:user_id])
+    return if @user
 
-    render json: { message: 'User is availability not found' }, status: :not_found
+    render json: { message: 'User is not found' }, status: :not_found
+  end
+
+  def set_availability
+    @availability = @user.availabilities.find_by(id: params[:id])
+    return if @availability
+
+    render json: { message: 'User is not availabe' }, status: :not_found
   end
 end

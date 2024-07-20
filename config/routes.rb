@@ -20,15 +20,11 @@ Rails.application.routes.draw do
       end
 
       resources :services do
-        member do
-          resources :hours
-        end
+        resources :hours, controller: 'services/hours'
       end
 
       resources :users do
-        member do
-          resources :availabilities
-        end
+        resources :availabilities, controller: 'users/availabilities'
       end
     end
   end

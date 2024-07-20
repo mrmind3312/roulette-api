@@ -8,14 +8,18 @@ services.each do |service_name|
 
   puts "***** #{service.name} CREATED *****"
 
-  hours = available_hours.sample(rand(1..available_hours.size))
+  Catalog::Hour::DAYS.each_with_index do |day, index|
+    hours = available_hours.sample(rand(1..available_hours.size))
 
-  hours.each do |catalog_hour|
-    service_hour = Services::Hour.find_or_create_by(
-      service:,
-      catalog_hour:
-    )
-
-    puts "***** #{service_hour.id} CREATED *****"
+    hours.each do |catalog_hour|
+      service_hour = Services::Hour.find_or_create_by(
+        service:,
+        catalog_hour:,
+        day: index
+      )
+  
+      puts "***** #{service_hour.id} CREATED *****"
+    end
   end
+
 end

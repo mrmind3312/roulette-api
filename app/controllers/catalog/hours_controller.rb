@@ -2,11 +2,11 @@ class Catalog::HoursController < ApplicationController
   before_action :set_catalog_hour, only: %i[show update destroy]
 
   def index
-    render json: Catalog::Hour.all
+    render json: Catalog::Hour.all.map(&:show)
   end
 
   def show
-    render json: @catalog_hour
+    render json: @catalog_hour.show
   end
 
   def create
@@ -47,7 +47,7 @@ class Catalog::HoursController < ApplicationController
   private
 
   def catalog_hour_params
-    params.require(:catalog_hour).permit(
+    params.require(:hour).permit(
       :start_at,
       :end_at
     )
