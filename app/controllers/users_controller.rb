@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
 
   def index
-    render json: User.include(:users_availabilities).all
+    render json: User.all.map(&:show)
   end
 
   def show
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(service_params)
+    user = User.new(user_params)
 
     if user.save
       render json: { message: 'User created' }, status: :created
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
   def destroy
     if @user.destroy
-      render json: { message: 'Service removed' }, status: :ok
+      render json: { message: 'User removed' }, status: :ok
     else
       render json: {
         message: 'Something went wrong',
