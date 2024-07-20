@@ -14,7 +14,7 @@ class Users::AvailabilitiesController < ApplicationController
     availability = @user.availabilities.build(availability_params)
 
     if availability.save
-      render json: { message: 'User availability created' }, status: :created
+      render json: availability.show, status: :created
     else
       render json: {
         message: 'Something went wrong',
@@ -25,7 +25,7 @@ class Users::AvailabilitiesController < ApplicationController
 
   def update
     if @availability.update(availability_params)
-      render json: { message: 'User availability updated' }, status: :ok
+      render json: @availability.show, status: :ok
     else
       render json: {
         message: 'Something went wrong',
