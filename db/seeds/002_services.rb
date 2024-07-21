@@ -9,7 +9,7 @@ services.each do |service_name|
   puts "***** #{service.name} CREATED *****"
 
   Catalog::Hour::DAYS.each_with_index do |day, index|
-    hours = available_hours.sample(rand(1..available_hours.size))
+    hours = available_hours.sample(rand(1..8))
 
     hours.each do |catalog_hour|
       service_hour = Services::Hour.find_or_create_by(
