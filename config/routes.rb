@@ -12,4 +12,24 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  scope :api do
+    scope :v1 do
+      namespace :catalog do
+        resources :hours
+      end
+
+      resources :services do
+        resources :hours, controller: 'services/hours'
+      end
+
+      resources :users do
+        resources :availabilities, controller: 'users/availabilities' do
+          collection do
+            get :all
+          end
+        end
+      end
+    end
+  end
 end
