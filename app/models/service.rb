@@ -5,7 +5,9 @@ class Service < ApplicationRecord
   def show
     self_attributes = attributes
 
-    self_attributes[:hours] = services_hours.order(day: :desc).map do |services_hour|
+    self_attributes[:hours] = services_hours.joins(:catalog_hour)
+                                            .order('services_hours.day ASC, catalog_hours.start_at ASC')
+                                            .map do |services_hour|
       hour_attributes = services_hour.catalog_hour.attributes
 
       hour_attributes[:start_at] = services_hour.catalog_hour.start_at_time
