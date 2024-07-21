@@ -75,13 +75,9 @@ A Postman collection is provided for testing the API. Import the `Roulette API.p
    // Check if the response contains the Authorization header
    const authHeader = pm.response.headers.get('Authorization');
    if (authHeader) {
-       // Strip the word "Bearer" and any leading/trailing whitespace
-       const token = authHeader.replace('Bearer', '').trim();
-       // Set the stripped token value to the TOKEN variable
-       pm.environment.set('TOKEN', token);
-       console.log('TOKEN variable set to:', token);
+       pm.environment.set('TOKEN', authHeader.split(' ')[1]);
    } else {
-       console.error('Authorization header not found in the response');
+       console.log('Authorization header not found in the response');
    }
    ```
 
@@ -92,6 +88,7 @@ A Postman collection is provided for testing the API. Import the `Roulette API.p
    ```sh
    rails db:seed
    ```
+   If you want to change the services and required times, please check and modify: `db/seeds/001_services.rb`. Also, if you want to change users, adjust `db/seeds/002_users.rb`.
 
 ### 2. **Manage User Availability**
    This section covers the endpoints to manage user availability by week, day, and hour.
@@ -108,8 +105,8 @@ A Postman collection is provided for testing the API. Import the `Roulette API.p
           "month": 1,
           "year": 2024,
           "available": true,
-          "services_id": null, // This params could be optional
-          "catalog_hours_id": 2 // 1 to 24
+          "services_id": null, // This param could be optional
+          "catalog_hours_id": 2
        }
        ```
 
@@ -130,7 +127,7 @@ A Postman collection is provided for testing the API. Import the `Roulette API.p
           "month": 1,
           "year": 2024,
           "available": false,
-          "services_id": 10, // This params could be optional
+          "services_id": 10, // This param could be optional
           "catalog_hours_id": 2
        }
        ```
