@@ -1,3 +1,6 @@
+# This seeder script creates predefined users with specific emails, names, and colors 
+# if they do not already exist, and logs the creation or existence of each user.
+
 require 'securerandom'
 
 colors = {

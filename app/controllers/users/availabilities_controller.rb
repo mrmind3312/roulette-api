@@ -80,6 +80,8 @@ class Users::AvailabilitiesController < ApplicationController
   end
 
   def assign_hours
-    KronosService.instance.assign_services
+    Thread.new do
+      KronosService.instance.assign_services
+    end
   end
 end
