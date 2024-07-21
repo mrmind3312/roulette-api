@@ -23,7 +23,7 @@ class Users::AvailabilitiesController < ApplicationController
     else
       render json: {
         message: 'Something went wrong',
-        errors: service.errors.full_messages
+        errors: availability.errors.full_messages
       }, status: :internal_server_error
     end
   end
