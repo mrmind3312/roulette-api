@@ -1,3 +1,7 @@
+# This seeder script creates or finds services, 
+# assigns random hours for each day of the week from available catalog hours, 
+# and logs the creation of services and service hours.
+
 available_hours = Catalog::Hour.all
 
 services = %w[TechNova BlueHorizon SkyNetics QuantumLeap EcoWave NeoFusion TerraSystems
@@ -21,5 +25,4 @@ services.each do |service_name|
       puts "***** #{service_hour.id} CREATED *****"
     end
   end
-
 end
