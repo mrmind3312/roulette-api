@@ -13,7 +13,7 @@ class KronosService
 
   def assign_service_to_week(service, week)
     Catalog::Hour::DAYS.each_with_index do |_day, day_index|
-      service.service_hours.where(day: day_index).each do |service_hour|
+      service.services_hours.where(day: day_index).each do |service_hour|
         assign_hour_to_day(service, week, day_index, service_hour)
       end
     end

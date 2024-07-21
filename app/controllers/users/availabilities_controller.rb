@@ -1,6 +1,7 @@
 class Users::AvailabilitiesController < ApplicationController
   before_action :set_user
   before_action :set_availability, only: %i[show update destroy]
+  after_action :assign_hours, only: %i[create update]
 
   def index
     render json: @user.availabilities.map(&:show)
@@ -76,5 +77,9 @@ class Users::AvailabilitiesController < ApplicationController
     return if @availability
 
     render json: { message: 'User is not availabe' }, status: :not_found
+  end
+
+  def assign_hours
+    KronosService.instance.assign_services
   end
 end
